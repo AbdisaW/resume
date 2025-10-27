@@ -1,3 +1,4 @@
+// ===== Modal Logic =====
 const modal = document.getElementById('mymodal');
 const closeBtn = modal.querySelector('.close');
 const cancelBtn = modal.querySelector('.btn.cancel');
@@ -82,3 +83,60 @@ saveBtn.addEventListener('click', (e) => {
     // Close modal
     closeModal();
 });
+
+// ===== Theme Toggle Logic =====
+const themeToggle = document.getElementById('themeToggle');
+const body = document.body;
+
+// Load saved theme from localStorage
+if (localStorage.getItem('theme') === 'dark') {
+  body.classList.add('dark-theme');
+  themeToggle.textContent = '☀️'; // Sun for light mode
+}
+
+// When button clicked, toggle theme
+themeToggle.addEventListener('click', () => {
+  body.classList.toggle('dark-theme');
+  const isDark = body.classList.contains('dark-theme');
+  themeToggle.textContent = isDark ? '☀️' : '🌙';
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+});
+
+
+
+
+const videoUpload = document.getElementById('videoUpload');
+const videoPreview = document.getElementById('videoPreview');
+const videoInfo = document.getElementById('videoInfo');
+const videoFileName = document.getElementById('videoFileName');
+const removeVideoBtn = document.getElementById('removeVideoBtn');
+const uploadArea = document.querySelector('.upload-area');
+
+videoUpload.addEventListener('change', function () {
+  const file = this.files[0];
+  if (!file) return;
+
+  const videoURL = URL.createObjectURL(file);
+  videoPreview.src = videoURL;
+
+  // Show video and info, hide upload area
+  uploadArea.classList.add('hidden');
+  videoPreview.classList.remove('hidden');
+  videoInfo.classList.remove('hidden');
+
+  videoFileName.textContent = file.name;
+  videoPreview.play();
+});
+
+removeVideoBtn.addEventListener('click', () => {
+  videoPreview.pause();
+  videoPreview.src = '';
+  videoUpload.value = ''; // reset file input
+
+  // Hide video and info, show upload area again
+  videoPreview.classList.add('hidden');
+  videoInfo.classList.add('hidden');
+  uploadArea.classList.remove('hidden');
+});
+
+
